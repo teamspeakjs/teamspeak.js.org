@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>teamspeak3.js - TypeScript TeamSpeak 3 ServerQuery Client</title>
+    <meta
+      name="description"
+      content="A fully typesafe and easy-to-use Node.js client for interacting with Teamspeak 3 servers via ServerQuery"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Added Prism.js CSS for proper syntax highlighting -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: #0a0a0a;
+        color: #e5e5e5;
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header */
+      header {
+        padding: 20px 0;
+        border-bottom: 1px solid #1a1a1a;
+        backdrop-filter: blur(10px);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(10, 10, 10, 0.8);
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 24px;
+        font-weight: 700;
+        color: #3b82f6;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 30px;
+        list-style: none;
+      }
+
+      .nav-links a {
+        color: #a1a1aa;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        color: #3b82f6;
+      }
+
+      /* Hero Section */
+      .hero {
+        padding: 100px 0;
+        text-align: center;
+        background: radial-gradient(
+          ellipse at center,
+          rgba(59, 130, 246, 0.1) 0%,
+          transparent 70%
+        );
+      }
+
+      .hero h1 {
+        font-size: 4rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .hero p {
+        font-size: 1.25rem;
+        color: #a1a1aa;
+        margin-bottom: 40px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .badge {
+        display: inline-block;
+        background: rgba(59, 130, 246, 0.1);
+        color: #3b82f6;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin-bottom: 30px;
+        border: 1px solid rgba(59, 130, 246, 0.2);
+      }
+
+      .cta-buttons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        padding: 12px 24px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .btn-primary {
+        background: #3b82f6;
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: #2563eb;
+        transform: translateY(-2px);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: #a1a1aa;
+        border: 1px solid #27272a;
+      }
+
+      .btn-secondary:hover {
+        background: #18181b;
+        color: #e5e5e5;
+      }
+
+      /* Stats */
+      .stats {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        margin-top: 60px;
+        flex-wrap: wrap;
+      }
+
+      .stat {
+        text-align: center;
+      }
+
+      .stat-number {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #3b82f6;
+      }
+
+      .stat-label {
+        color: #71717a;
+        font-size: 0.875rem;
+      }
+
+      /* Sections */
+      section {
+        padding: 80px 0;
+      }
+
+      .section-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 60px;
+      }
+
+      /* Installation */
+      .code-block {
+        background: #111111;
+        border: 1px solid #27272a;
+        border-radius: 12px;
+        padding: 24px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.875rem;
+        overflow-x: auto;
+        position: relative;
+      }
+
+      .code-block::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+      }
+
+      /* Override Prism theme to match our dark design */
+      pre[class*="language-"] {
+        background: transparent !important;
+        margin: 0;
+        padding: 0;
+      }
+
+      code[class*="language-"] {
+        background: transparent !important;
+        color: #e5e5e5;
+      }
+
+      .code-block .token.comment,
+      .code-block .token.prolog,
+      .code-block .token.doctype,
+      .code-block .token.cdata {
+        color: #71717a;
+        font-style: italic;
+      }
+
+      .code-block .token.punctuation {
+        color: #a1a1aa;
+      }
+
+      .code-block .token.property,
+      .code-block .token.tag,
+      .code-block .token.boolean,
+      .code-block .token.number,
+      .code-block .token.constant,
+      .code-block .token.symbol,
+      .code-block .token.deleted {
+        color: #3b82f6;
+      }
+
+      .code-block .token.selector,
+      .code-block .token.attr-name,
+      .code-block .token.string,
+      .code-block .token.char,
+      .code-block .token.builtin,
+      .code-block .token.inserted {
+        color: #10b981;
+      }
+
+      .code-block .token.operator,
+      .code-block .token.entity,
+      .code-block .token.url,
+      .language-css .token.string,
+      .style .token.string {
+        color: #60a5fa;
+      }
+
+      .code-block .token.atrule,
+      .code-block .token.attr-value,
+      .code-block .token.keyword {
+        color: #8b5cf6;
+        font-weight: 500;
+      }
+
+      .code-block .token.function,
+      .code-block .token.class-name {
+        color: #f59e0b;
+      }
+
+      .code-block .token.regex,
+      .code-block .token.important,
+      .code-block .token.variable {
+        color: #ef4444;
+      }
+
+      /* Features Grid */
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+      }
+
+      .feature-card {
+        background: #111111;
+        border: 1px solid #27272a;
+        border-radius: 12px;
+        padding: 30px;
+        transition: all 0.3s ease;
+      }
+
+      .feature-card:hover {
+        border-color: #3b82f6;
+        transform: translateY(-4px);
+      }
+
+      .feature-icon {
+        width: 48px;
+        height: 48px;
+        background: rgba(59, 130, 246, 0.1);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        font-size: 24px;
+      }
+
+      .feature-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 12px;
+      }
+
+      .feature-description {
+        color: #a1a1aa;
+      }
+
+      /* Footer */
+      footer {
+        border-top: 1px solid #1a1a1a;
+        padding: 40px 0;
+        text-align: center;
+        color: #71717a;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+
+      .footer-links a {
+        color: #a1a1aa;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .footer-links a:hover {
+        color: #3b82f6;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+
+        .nav-links {
+          display: none;
+        }
+
+        .stats {
+          gap: 20px;
+        }
+
+        .cta-buttons {
+          flex-direction: column;
+          align-items: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav class="container">
+        <div class="logo">teamspeak.js</div>
+        <ul class="nav-links">
+          <li><a href="#installation">Installation</a></li>
+          <li><a href="#examples">Examples</a></li>
+          <li><a href="#features">Features</a></li>
+          <li>
+            <a
+              href="https://github.com/teamspeakjs/teamspeak3.js"
+              target="_blank"
+              >GitHub</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container">
+          <div class="badge">🚧 Work in Progress</div>
+          <h1>teamspeak.js</h1>
+          <p>
+            A fully typesafe and easy-to-use Node.js client for interacting with
+            Teamspeak 3 servers via ServerQuery. 💡
+            <strong>Inspired by Discord.js</strong>, bringing a similar
+            event-driven interface to TeamSpeak 3.
+          </p>
+
+          <div class="cta-buttons">
+            <a
+              href="https://www.npmjs.com/package/teamspeak3.js"
+              class="btn btn-primary"
+              target="_blank"
+            >
+              📦 View on NPM
+            </a>
+            <a
+              href="https://github.com/teamspeakjs/teamspeak3.js"
+              class="btn btn-secondary"
+              target="_blank"
+            >
+              ⭐ Star on GitHub
+            </a>
+            <a
+              href="https://lix.qa/tjs-dc/"
+              class="btn btn-secondary"
+              target="_blank"
+            >
+              💬 Join Discord
+            </a>
+          </div>
+
+          <div class="stats">
+            <div class="stat">
+              <div class="stat-number" id="version-display">v0.0.0</div>
+              <div class="stat-label">Current Version</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">TS</div>
+              <div class="stat-label">TypeScript First</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">MIT</div>
+              <div class="stat-label">License</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="installation">
+        <div class="container">
+          <h2 class="section-title">Installation</h2>
+          <!-- Updated code blocks to use Prism.js classes -->
+          <div class="code-block">
+            <pre><code class="language-bash"># Install with npm
+npm install teamspeak3.js
+
+# Or with yarn
+yarn add teamspeak3.js
+
+# Or with pnpm
+pnpm add teamspeak3.js</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="examples">
+        <div class="container">
+          <h2 class="section-title">Quick Start</h2>
+          <div class="code-block">
+            <pre><code class="language-javascript">import { Query } from 'teamspeak3.js';
+
+const query = new Query({
+  host: '127.0.0.1',
+  port: 10011,
+});
+
+query.on('ready', async () => {
+  console.log('Connected to TeamSpeak server!');
+
+  await query.login('serveradmin', 'p4ssw0rd');
+  await query.useVirtualServer(1);
+  await query.notifications.subscribeAll();
+
+  // Fetch all clients
+  const clients = await query.clients.fetch();
+  console.log('There are currently', clients.size, 'clients');
+
+  // Create a new permanent channel
+  const channel = await query.channels.create({
+    name: 'New Channel',
+    type: 'permanent'
+  });
+});
+
+// Event handling
+query.on('ChannelCreate', (channel) => {
+  console.log('Channel created:', channel);
+});
+
+query.on('TextMessage', (message) => {
+  console.log('Message:', message.content);
+});
+
+query.connect();</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="features">
+        <div class="container">
+          <h2 class="section-title">Features</h2>
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon">🔷</div>
+              <h3 class="feature-title">TypeScript First</h3>
+              <p class="feature-description">
+                Built from the ground up with TypeScript for excellent developer
+                experience and type safety.
+              </p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">⚡</div>
+              <h3 class="feature-title">Modern API</h3>
+              <p class="feature-description">
+                Clean, intuitive API design inspired by discord.js with
+                Promise-based methods and event handling.
+              </p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🔧</div>
+              <h3 class="feature-title">Server Management</h3>
+              <p class="feature-description">
+                Comprehensive server administration tools for managing channels,
+                users, and permissions.
+              </p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">📡</div>
+              <h3 class="feature-title">Real-time Events</h3>
+              <p class="feature-description">
+                Listen to server events like user joins, channel changes, and
+                message notifications.
+              </p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🛡️</div>
+              <h3 class="feature-title">Secure Connection</h3>
+              <p class="feature-description">
+                Secure ServerQuery connections with proper authentication and
+                error handling.
+              </p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">📚</div>
+              <h3 class="feature-title">Documentation</h3>
+              <p class="feature-description">
+                Comprehensive documentation and examples coming soon to help you
+                get started quickly.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section style="background: #0a0a0a; text-align: center">
+        <div class="container">
+          <h2 class="section-title">Coming Soon</h2>
+          <p
+            style="
+              font-size: 1.125rem;
+              color: #a1a1aa;
+              max-width: 600px;
+              margin: 0 auto 40px;
+            "
+          >
+            teamspeak3.js is actively being developed. Proper documentation,
+            more examples, and additional features are on the way. Star the
+            repository to stay updated on our progress!
+          </p>
+          <div class="badge">📖 Full documentation coming soon</div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="footer-links">
+          <a href="https://www.npmjs.com/package/teamspeak3.js" target="_blank"
+            >NPM Package</a
+          >
+          <a href="https://github.com/teamspeakjs/teamspeak3.js" target="_blank"
+            >GitHub Repository</a
+          >
+          <a
+            href="https://github.com/teamspeakjs/teamspeak3.js/issues"
+            target="_blank"
+            >Report Issues</a
+          >
+          <a
+            href="https://github.com/teamspeakjs/teamspeak3.js/blob/main/LICENSE"
+            target="_blank"
+            >License</a
+          >
+          <a href="https://lix.qa/tjs-dc/" target="_blank">Discord Server</a>
+        </div>
+        <p>
+          &copy; 2025 teamspeak.js. Built with ❤️ for the TeamSpeak community.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // Fetch the latest version from NPM registry
+      async function fetchLatestVersion() {
+        try {
+          const response = await fetch(
+            "https://registry.npmjs.org/teamspeak3.js"
+          );
+          const data = await response.json();
+          const latestVersion = data["dist-tags"].latest;
+
+          // Update the version display
+          const versionElement = document.getElementById("version-display");
+          if (versionElement) {
+            versionElement.textContent = `v${latestVersion}`;
+          }
+        } catch (error) {
+          console.error("Failed to fetch version:", error);
+          // Fallback to static version if fetch fails
+          const versionElement = document.getElementById("version-display");
+          if (versionElement) {
+            versionElement.textContent = "v0.";
+          }
+        }
+      }
+
+      // Fetch version when page loads
+      document.addEventListener("DOMContentLoaded", fetchLatestVersion);
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  </body>
+</html>
