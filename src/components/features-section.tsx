@@ -24,7 +24,7 @@ const features = [
     icon: Puzzle,
     title: "Fully Extensible",
     description:
-      "Plugin architecture and event-driven design. Build complex integrations with ease.",
+      "Plugin architecture and event-driven design. Build complex bots with ease.",
   },
   {
     icon: Lock,
@@ -49,7 +49,7 @@ export function FeaturesSection() {
             Built for Modern Development
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Everything you need to build powerful TeamSpeak integrations
+            Everything you need to build powerful TeamSpeak bots
           </p>
         </div>
 

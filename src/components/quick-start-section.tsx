@@ -8,19 +8,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-import { Copy, Terminal, Package, Play, CheckCircle } from "lucide-react";
-import { useState } from "react";
+import { Terminal, Package, Play } from "lucide-react";
+import { CodeBlock } from "@/components/code-block";
 
 export function QuickStartSection() {
-  const [copiedText, setCopiedText] = useState<string | null>(null);
-
-  const copyToClipboard = (text: string, label: string) => {
-    navigator.clipboard.writeText(text);
-    setCopiedText(label);
-    setTimeout(() => setCopiedText(null), 2000);
-  };
-
   return (
     <section className="py-24" id="quick-start">
       <div className="container mx-auto px-4">
@@ -59,29 +50,13 @@ export function QuickStartSection() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="bg-background border border-border rounded-lg p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm text-muted-foreground">
-                        Terminal
-                      </span>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() =>
-                          copyToClipboard("npm install teamspeak.js", "install")
-                        }
-                      >
-                        {copiedText === "install" ? (
-                          <CheckCircle className="h-4 w-4 text-primary" />
-                        ) : (
-                          <Copy className="h-4 w-4" />
-                        )}
-                      </Button>
-                    </div>
-                    <code className="text-sm font-mono">
-                      npm install teamspeak.js
-                    </code>
-                  </div>
+                  <CodeBlock
+                    filename="Terminal"
+                    showCopy={true}
+                    language="bash"
+                  >
+                    npm install teamspeak.js
+                  </CodeBlock>
                 </CardContent>
               </Card>
             </TabsContent>
@@ -95,54 +70,22 @@ export function QuickStartSection() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="bg-background border border-border rounded-lg p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm text-muted-foreground">
-                        connect.ts
-                      </span>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() =>
-                          copyToClipboard(
-                            `import { TeamSpeakClient } from 'teamspeak.js';
+                  <CodeBlock
+                    filename="connect.ts"
+                    showCopy={true}
+                    language="typescript"
+                  >
+                    {`import { Query } from 'teamspeak.js';
 
-const client = new TeamSpeakClient({
-  host: 'your-server.com',
-  serverport: 9987,
-  username: 'serveradmin',
-  password: 'your-password'
+const query = new Query({
+  host: '127.0.0.1',
+  port: 10011,
 });
 
-await client.connect();
-const server = await client.getServer();
-console.log(\`Connected to: \${server.name}\`);`,
-                            "connect"
-                          )
-                        }
-                      >
-                        {copiedText === "connect" ? (
-                          <CheckCircle className="h-4 w-4 text-primary" />
-                        ) : (
-                          <Copy className="h-4 w-4" />
-                        )}
-                      </Button>
-                    </div>
-                    <pre className="text-sm font-mono leading-relaxed">
-                      <code>{`import { TeamSpeakClient } from 'teamspeak.js';
+query.connect();
 
-const client = new TeamSpeakClient({
-  host: 'your-server.com',
-  serverport: 9987,
-  username: 'serveradmin',
-  password: 'your-password'
-});
-
-await client.connect();
-const server = await client.getServer();
-console.log(\`Connected to: \${server.name}\`);`}</code>
-                    </pre>
-                  </div>
+console.log('Connected to TeamSpeak server!');`}
+                  </CodeBlock>
                 </CardContent>
               </Card>
             </TabsContent>
@@ -156,80 +99,70 @@ console.log(\`Connected to: \${server.name}\`);`}</code>
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="bg-background border border-border rounded-lg p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm text-muted-foreground">
-                        bot.ts
-                      </span>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() =>
-                          copyToClipboard(
-                            `import { TeamSpeakClient } from 'teamspeak.js';
+                  <CodeBlock
+                    filename="bot.ts"
+                    showCopy={true}
+                    language="typescript"
+                  >
+                    {`import { Query, Events } from 'teamspeak.js';
 
-const client = new TeamSpeakClient({
-  host: 'your-server.com',
-  serverport: 9987,
-  username: 'serveradmin',
-  password: 'your-password'
+const query = new Query({
+  host: '127.0.0.1',
+  port: 10011,
 });
 
-async function startBot() {
-  await client.connect();
-  console.log('Bot connected!');
-  
-  client.on('clientConnect', async (client) => {
-    await client.sendMessage(\`Welcome \${client.nickname}!\`);
-  });
-  
-  client.on('textMessage', async (message) => {
-    if (message.text === '!ping') {
-      await message.reply('Pong!');
-    }
-  });
-}
+query.connect();
 
-startBot();`,
-                            "example"
-                          )
-                        }
-                      >
-                        {copiedText === "example" ? (
-                          <CheckCircle className="h-4 w-4 text-primary" />
-                        ) : (
-                          <Copy className="h-4 w-4" />
-                        )}
-                      </Button>
-                    </div>
-                    <pre className="text-sm font-mono leading-relaxed">
-                      <code>{`import { TeamSpeakClient } from 'teamspeak.js';
+await query.login('serveradmin', 'p4ssw0rd');
 
-const client = new TeamSpeakClient({
-  host: 'your-server.com',
-  serverport: 9987,
-  username: 'serveradmin',
-  password: 'your-password'
+await query.virtualServers.use(1);
+// Or use by port:
+// await query.virtualServers.use({ port: 9987 });
+
+console.log('ServerQuery is ready!');
+
+// Now you can start interacting with the server
+
+// Events
+
+query.on(Events.ChannelCreate, (channel) => {
+  console.log(\`Channel created: \${channel.name}\`);
 });
 
-async function startBot() {
-  await client.connect();
-  console.log('Bot connected!');
-  
-  client.on('clientConnect', async (client) => {
-    await client.sendMessage(\`Welcome \${client.nickname}!\`);
-  });
-  
-  client.on('textMessage', async (message) => {
-    if (message.text === '!ping') {
-      await message.reply('Pong!');
-    }
-  });
-}
+query.on(Events.ChannelUpdate, (before, after) => {
+  if (before.name !== after.name) {
+    console.log(\`Channel name of \${before.id} changed from "\${before.name}" to "\${after.name}"\`);
+  }
+});
 
-startBot();`}</code>
-                    </pre>
-                  </div>
+query.on(Events.TextMessage, (message) => {
+  console.log(
+    \`Received a \${message.mode}-message from \${message.invoker.nickname || message.invoker.id || 'Unknown Client'}: \${message.content}\`,
+  );
+});
+
+// Interact with the server
+
+// Set bot nickname
+await query.setNickname('RealAdmin');
+
+//Fetch all clients
+const clients = await query.clients.fetch();
+
+console.log('There are currently', clients.size, 'clients');
+
+// Create a new permanent channel
+const createdChannel = await query.channels.create({ name: 'New Channel', type: 'permanent' });
+
+console.log('Created channel:', createdChannel);
+
+// Edit the channel
+await createdChannel.edit({ name: 'Changed Name', topic: 'Just chilling' });
+
+// Delete the channel
+await createdChannel.delete();
+`}
+                  </CodeBlock>
                 </CardContent>
               </Card>
             </TabsContent>

@@ -1,36 +1,39 @@
+import { Button } from "@/components/ui/button";
+import { Home } from "lucide-react";
 import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white">
-      <div className="text-center">
-        <h1 className="text-6xl font-extrabold mb-4 drop-shadow-lg">404</h1>
-        <h2 className="text-2xl font-semibold mb-6">Page Not Found</h2>
-        <p className="mb-8 text-lg opacity-80">
-          Sorry, the page you are looking for does not exist or has been moved.
+    <main className="min-h-screen bg-background relative overflow-hidden">
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-background to-background animate-gradient" />
+
+      {/* Floating elements */}
+      <div className="absolute top-20 left-10 w-20 h-20 bg-primary/10 rounded-full blur-xl animate-float" />
+      <div
+        className="absolute top-40 right-20 w-32 h-32 bg-accent/10 rounded-full blur-xl animate-float"
+        style={{ animationDelay: "1s" }}
+      />
+      <div
+        className="absolute bottom-20 left-1/4 w-16 h-16 bg-primary/10 rounded-full blur-xl animate-float"
+        style={{ animationDelay: "2s" }}
+      />
+
+      {/* Content */}
+      <div className="container relative flex flex-col items-center justify-center min-h-screen text-center max-w-3xl mx-auto px-4">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-4 flex items-center gap-4">
+          <span className="text-primary">404</span>
+          Page Not Found
+        </h1>
+        <p className="text-muted-foreground text-lg mb-8 max-w-2xl">
+          The page you&apos;re looking for doesn&apos;t exist or has been moved.
         </p>
         <Link href="/">
-          <span className="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-lg font-bold shadow transition-colors duration-200">
-            Go Home
-          </span>
+          <Button size="lg" className="gap-2">
+            <Home className="w-5 h-5" />
+            Back to Homepage
+          </Button>
         </Link>
-      </div>
-      <div className="mt-12 animate-bounce">
-        <svg
-          width="80"
-          height="80"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          className="mx-auto text-blue-300"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z"
-          />
-        </svg>
       </div>
     </main>
   );

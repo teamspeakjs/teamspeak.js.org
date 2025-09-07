@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Github, Download, ExternalLink } from "lucide-react";
 import Link from "next/link";
+import { CodeBlock } from "@/components/code-block";
 
 export function HeroSection() {
   return (
@@ -57,7 +58,7 @@ export function HeroSection() {
             <Link href="#quick-start">
               <Button
                 size="lg"
-                className="px-8 py-3 text-lg font-semibold animate-glow cursor-pointer"
+                className="px-8 py-3 text-lg font-semibold animate-glow"
               >
                 <Download className="mr-2 h-5 w-5" />
                 Get Started
@@ -70,17 +71,17 @@ export function HeroSection() {
               <Button
                 variant="outline"
                 size="lg"
-                className="px-8 py-3 text-lg bg-transparent cursor-pointer"
+                className="px-8 py-3 text-lg bg-transparent"
               >
                 <Github className="mr-2 h-5 w-5" />
                 View on GitHub
               </Button>
             </Link>
-            <Link href="https://teamspeak.js.org/docs">
+            <Link href="/docs">
               <Button
                 variant="outline"
                 size="lg"
-                className="px-8 py-3 text-lg bg-transparent cursor-pointer"
+                className="px-8 py-3 text-lg bg-transparent"
               >
                 <ExternalLink className="mr-2 h-5 w-5" />
                 Documentation
@@ -90,30 +91,23 @@ export function HeroSection() {
 
           {/* Code preview */}
           <div className="pt-12">
-            <div className="code-block rounded-xl p-6 max-w-2xl mx-auto text-left">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                <span className="text-muted-foreground text-sm ml-2">
-                  index.ts
-                </span>
-              </div>
-              <pre className="text-sm font-mono text-foreground">
-                <code>{`import { TeamSpeakClient } from 'teamspeak.js';
+            <CodeBlock
+              filename="index.ts"
+              showDots={true}
+              showCopy={true}
+              language="typescript"
+            >
+              {`import { Query } from 'teamspeak.js';
 
-const client = new TeamSpeakClient({
-  host: 'localhost',
-  serverport: 9987,
-  username: 'serveradmin',
-  password: 'password'
+const query = new Query({
+  host: '127.0.0.1',
+  port: 10011,
 });
 
-await client.connect();
-const server = await client.getServer();
-console.log(\`Connected to: \${server.name}\`);`}</code>
-              </pre>
-            </div>
+query.connect();
+
+console.log('Connected to TeamSpeak server!');`}
+            </CodeBlock>
           </div>
         </div>
       </div>

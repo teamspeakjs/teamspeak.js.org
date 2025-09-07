@@ -2,30 +2,62 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Download, Star, GitFork, Package } from "lucide-react";
+import { getPackageStats } from "@/lib/stats";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export function StatsSection() {
-  const stats = [
+  const [stats, setStats] = useState([
     {
       icon: Download,
-      value: "25.7k",
+      value: "0",
       label: "Weekly Downloads",
     },
     {
       icon: Star,
-      value: "2.1k",
+      value: "0",
       label: "GitHub Stars",
     },
     {
       icon: GitFork,
-      value: "156",
+      value: "0",
       label: "Forks",
     },
     {
       icon: Package,
-      value: "v3.2.1",
+      value: "v0.0.0",
       label: "Latest Version",
     },
-  ];
+  ]);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      const data = await getPackageStats();
+      setStats([
+        {
+          icon: Download,
+          value: data.weeklyDownloads.toLocaleString(),
+          label: "Weekly Downloads",
+        },
+        {
+          icon: Star,
+          value: data.stars.toLocaleString(),
+          label: "GitHub Stars",
+        },
+        {
+          icon: GitFork,
+          value: data.forks.toLocaleString(),
+          label: "Forks",
+        },
+        {
+          icon: Package,
+          value: data.latestVersion,
+          label: "Latest Version",
+        },
+      ]);
+    };
+    fetchStats();
+  }, []);
 
   return (
     <section className="py-20">
@@ -35,7 +67,7 @@ export function StatsSection() {
             Trusted by Developers
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Join the growing community building TeamSpeak integrations
+            Join the growing community building TeamSpeak bots
           </p>
         </div>
 
@@ -57,7 +89,7 @@ export function StatsSection() {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-12">
-          <a
+          <Link
             href="https://www.npmjs.com/package/teamspeak.js"
             target="_blank"
             rel="noopener noreferrer"
@@ -65,16 +97,16 @@ export function StatsSection() {
           >
             <Package className="h-4 w-4 text-primary" />
             View on NPM
-          </a>
-          <a
-            href="https://github.com/your-username/teamspeak.js"
+          </Link>
+          <Link
+            href="https://github.com/teamspeakjs/teamspeak.js"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 px-6 py-3 bg-card border border-border hover:border-primary rounded-lg transition-colors"
           >
             <Star className="h-4 w-4 text-primary" />
             Star on GitHub
-          </a>
+          </Link>
         </div>
       </div>
     </section>

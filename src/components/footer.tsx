@@ -4,10 +4,10 @@ import {
   Heart,
   Book,
   MessageCircle,
-  Star,
   Download,
   Package,
 } from "lucide-react";
+import Link from "next/link";
 
 export function Footer() {
   return (
@@ -25,49 +25,35 @@ export function Footer() {
                 love. Built by the community, for the community.
               </p>
             </div>
-
-            {/* Quick stats */}
-            <div className="grid grid-cols-3 gap-4 max-w-sm">
-              <div className="text-center p-3 bg-background rounded-lg border border-border">
-                <div className="text-lg font-bold text-primary">25.7k</div>
-                <div className="text-xs text-muted-foreground">Downloads</div>
-              </div>
-              <div className="text-center p-3 bg-background rounded-lg border border-border">
-                <div className="text-lg font-bold text-primary">2.1k</div>
-                <div className="text-xs text-muted-foreground">Stars</div>
-              </div>
-              <div className="text-center p-3 bg-background rounded-lg border border-border">
-                <div className="text-lg font-bold text-primary">v3.2.1</div>
-                <div className="text-xs text-muted-foreground">Latest</div>
-              </div>
-            </div>
           </div>
 
           {/* Resources */}
           <div className="space-y-6">
             <h4 className="font-semibold text-foreground">Resources</h4>
             <div className="space-y-3">
-              <a
-                href="#"
+              <Link
+                href="/docs"
                 className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
               >
                 <Book className="h-4 w-4" />
                 Documentation
-              </a>
-              <a
-                href="#"
+              </Link>
+              <Link
+                href="https://github.com/teamspeakjs/teamspeak.js"
+                target="_blank"
                 className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
               >
                 <Github className="h-4 w-4" />
                 GitHub Repository
-              </a>
-              <a
-                href="#"
+              </Link>
+              <Link
+                href="https://www.npmjs.com/package/teamspeak.js"
+                target="_blank"
                 className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
               >
                 <Package className="h-4 w-4" />
                 NPM Package
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -75,34 +61,30 @@ export function Footer() {
           <div className="space-y-6">
             <h4 className="font-semibold text-foreground">Community</h4>
             <div className="space-y-3">
-              <a
-                href="#"
+              <Link
+                href="https://lix.qa/tjs-dc"
+                target="_blank"
                 className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
               >
                 <MessageCircle className="h-4 w-4" />
                 Discord Server
-              </a>
-              <a
-                href="#"
+              </Link>
+              <Link
+                href="https://github.com/teamspeakjs/teamspeak.js/issues"
+                target="_blank"
                 className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
               >
                 <Github className="h-4 w-4" />
                 Issues & Support
-              </a>
-              <a
-                href="#"
+              </Link>
+              <Link
+                href="https://github.com/teamspeakjs/teamspeak.js/tree/main?tab=contributing-ov-file#readme"
+                target="_blank"
                 className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
               >
                 <Heart className="h-4 w-4" />
                 Contributing Guide
-              </a>
-              <a
-                href="#"
-                className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
-              >
-                <Star className="h-4 w-4" />
-                Changelog
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -110,28 +92,45 @@ export function Footer() {
         {/* Bottom section */}
         <div className="border-t border-border mt-12 pt-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-muted-foreground text-sm flex items-center gap-2">
-              Made with <Heart className="inline h-4 w-4 text-primary" /> by the
-              open source community
+            <p className="text-muted-foreground text-sm flex items-center gap-1">
+              Made with <Heart className="inline size-4 text-primary" /> by
+              <Link
+                href="https://lix.qa/"
+                target="_blank"
+                className="font-medium hover:underline text-primary"
+              >
+                Lixqa
+              </Link>
+              and the open source community
             </p>
 
             <div className="flex items-center gap-4">
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-muted-foreground hover:text-primary"
+              <Link
+                href="https://github.com/teamspeakjs/teamspeak.js/stargazers"
+                target="_blank"
               >
-                <Github className="h-4 w-4 mr-2" />
-                Star on GitHub
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-muted-foreground hover:text-primary"
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-muted-foreground hover:text-primary"
+                >
+                  <Github className="h-4 w-4 mr-2" />
+                  Star on GitHub
+                </Button>
+              </Link>
+              <Link
+                href="https://www.npmjs.com/package/teamspeak.js"
+                target="_blank"
               >
-                <Download className="h-4 w-4 mr-2" />
-                Download
-              </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-muted-foreground hover:text-primary"
+                >
+                  <Download className="h-4 w-4 mr-2" />
+                  Download
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
