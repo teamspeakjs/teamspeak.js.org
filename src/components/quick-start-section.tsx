@@ -144,7 +144,7 @@ query.on(Events.TextMessage, (message) => {
 // Interact with the server
 
 // Set bot nickname
-await query.setNickname('RealAdmin');
+await query.client.setNickname('RealAdmin');
 
 //Fetch all clients
 const clients = await query.clients.fetch();
