@@ -87,6 +87,16 @@ export function HeroSection() {
                 Documentation
               </Button>
             </Link>
+            <Link href="/examples">
+              <Button
+                variant="outline"
+                size="lg"
+                className="px-8 py-3 text-lg bg-transparent"
+              >
+                <ExternalLink className="mr-2 h-5 w-5" />
+                Examples
+              </Button>
+            </Link>
           </div>
 
           {/* Code preview */}
