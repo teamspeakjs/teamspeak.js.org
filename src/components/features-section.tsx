@@ -36,7 +36,7 @@ const features = [
     icon: Heart,
     title: "Open Source",
     description:
-      "MIT licensed, community-driven development. Contributions welcome worldwide.",
+      "Apache 2.0 licensed, community-driven development. Contributions welcome worldwide.",
   },
 ];
 
