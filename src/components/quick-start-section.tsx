@@ -79,10 +79,9 @@ export function QuickStartSection() {
 
 const query = new Query({
   host: '127.0.0.1',
-  port: 10011,
 });
 
-query.connect();
+await query.connect();
 
 console.log('Connected to TeamSpeak server!');`}
                   </CodeBlock>
@@ -108,10 +107,9 @@ console.log('Connected to TeamSpeak server!');`}
 
 const query = new Query({
   host: '127.0.0.1',
-  port: 10011,
 });
 
-query.connect();
+await query.connect();
 
 await query.login('serveradmin', 'p4ssw0rd');
 

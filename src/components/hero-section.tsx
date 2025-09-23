@@ -100,11 +100,10 @@ export function HeroSection() {
               {`import { Query } from 'teamspeak.js';
 
 const query = new Query({
-  host: '127.0.0.1',
-  port: 10011,
+  host: '127.0.0.1'
 });
 
-query.connect();
+await query.connect();
 
 console.log('Connected to TeamSpeak server!');`}
             </CodeBlock>
